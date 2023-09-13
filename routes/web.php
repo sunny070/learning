@@ -36,5 +36,9 @@ Route::middleware([
 
 Route::get('/all/category',[CategoryController::class,'allCat'])->name('all.category');
 Route::post('/store/category',[CategoryController::class,'addCat'])->name('store.category');
+Route::get('/edit/category/{id}',[CategoryController::class,'edit'])->name('category.edit');
+Route::post('/update/category/{id}',[CategoryController::class,'update'])->name('category.edit');
+
+
 
 Route::get('/all/category/add',[CategoryController::class,'add'])->name('all.category.add');

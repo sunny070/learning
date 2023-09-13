@@ -5,11 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
     public function allCat(){
-        $categories= Category::latest()->get();
+        // $categories =DB::table('categories')
+        // ->join('users','categories.user_id','users.id')
+        // ->select('categories.*','users.name')
+        // ->latest()->paginate(5);
+        // Query Builder
+        // $categories= DB::table('categories')->latest()->paginate(5);
+        
+        //Eloquent ORM
+        $categories= Category::latest()->paginate(5);
         return view('admin.category.index',compact('categories'));
     }
 
@@ -52,9 +62,36 @@ class CategoryController extends Controller
 
     // }
 
+    
+
     public function add()
     {
         
         return view('admin.category.add');
+    }
+
+    public function edit($id){
+        //Eloquent ORM
+        // $categories = Category::find($id);
+
+        //Query
+        $categories = DB::table('categories')->where('id',$id)->first();
+        return view('admin.category.edit',compact('categories'));
+
+    }
+
+    public function update(Request $request ,$id){
+        //Eloquent ORM
+        // $update = Category::find($id)->update([
+        //     'category' => $request->category,
+        //     'user_id'=>\Auth::user()->id
+        // ]);
+
+        // query
+        $data = array();
+        $data['category']= $request->category;
+        $data['user_id']=Auth::user()->id;
+        Db::table('categories')->where('id',$id)->update($data);
+        return Redirect()->route('all.category')->with('success','Data Updated Successfully');
     }
 }
