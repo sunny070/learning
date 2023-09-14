@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 
 class CategoryController extends Controller
 {
@@ -20,7 +21,8 @@ class CategoryController extends Controller
         
         //Eloquent ORM
         $categories= Category::latest()->paginate(5);
-        return view('admin.category.index',compact('categories'));
+        $trachCat = Category::onlyTrashed()->latest()->paginate(3);
+        return view('admin.category.index',compact('categories','trachCat'));
     }
 
     public function addCat(Request $request){
@@ -35,7 +37,7 @@ class CategoryController extends Controller
     // One way to save data to database
     Category::insert([
         'category'=>$request->category,
-        'user_id'=>\Auth::user()->id,
+        'user_id'=>Auth::user()->id,
         'created_at' => Carbon::now()
     ]);
     return Redirect()->back()->with('success','Data Inserted Successfully');
@@ -93,5 +95,20 @@ class CategoryController extends Controller
         $data['user_id']=Auth::user()->id;
         Db::table('categories')->where('id',$id)->update($data);
         return Redirect()->route('all.category')->with('success','Data Updated Successfully');
+    }
+    public function SoftDelete($id){
+        $delete = Category::find($id)->delete();
+        return Redirect()->back()->with('success','Category Soft Deleted Successfully');
+    }
+
+    public function Restore($id){
+        $restore = Category::withTrashed()->find($id)->restore();
+        return Redirect()->back()->with('success','Category Restored Successfully');
+
+    }
+    public function P_Delete($id){
+        $p_delete = Category::onlyTrashed()->find($id)->forceDelete();
+        return Redirect()->back()->with('success','Category Permanently Deleted Successfully');
+
     }
 }

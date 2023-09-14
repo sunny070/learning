@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BrandController;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -34,11 +35,20 @@ Route::middleware([
     })->name('dashboard');
 });
 
+// Category
 Route::get('/all/category',[CategoryController::class,'allCat'])->name('all.category');
 Route::post('/store/category',[CategoryController::class,'addCat'])->name('store.category');
 Route::get('/edit/category/{id}',[CategoryController::class,'edit'])->name('category.edit');
 Route::post('/update/category/{id}',[CategoryController::class,'update'])->name('category.edit');
 
+Route::get('softdelete/category/{id}',[CategoryController::class,'SoftDelete']);
 
+Route::get('restore/category/{id}',[CategoryController::class,'Restore']);
 
+Route::get('pdelete/category/{id}',[CategoryController::class,'P_Delete']);
+// Yet to work on this page
 Route::get('/all/category/add',[CategoryController::class,'add'])->name('all.category.add');
+
+
+// Brand
+Route::get('/all/brand',[BrandController::class,'Brand'])->name('all.brand');
