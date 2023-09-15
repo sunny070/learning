@@ -72,9 +72,9 @@
                                         <td scope="col" class="px-6 py-4">{{$brands->firstItem()+$loop->index}}</td>
 
                                         {{-- <td scope="col" class="px-6 py-4">{{$brand->id}}</td> --}}
-                                        <td scope="col" class="px-6 py-4">{{$brand->category}}</td>
+                                        <td scope="col" class="px-6 py-4">{{$brand->brand_name}}</td>
                                         {{-- while using the eloquent orm --}}
-                                        <td scope="col" class="px-6 py-4"> <img src="" alt=""> </td>
+                                        <td scope="col" class="px-6 py-4"> <img src="{{ asset($brand->brand_image) }}" style="height:40px; width:70px" alt=""> </td>
 
                                         {{-- while using the query --}}
                                         {{-- <td scope="col" class="px-6 py-4">{{$brand->name}}</td> --}}
@@ -91,7 +91,7 @@
                                             @endif
                                         </td>
                                         <td class="flex justify-center">
-                                            <a href="{{ url('brand/eidt/'.$brand->id) }}" class="">
+                                            <a href="{{ url('brand/edit/'.$brand->id) }}" class="">
                                                 <span><svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                                                         class="text-emerald-700 w-6 h-6">
@@ -99,7 +99,7 @@
                                                             d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                                     </svg></span>
                                             </a>
-                                            <a href="{{ url('brand/delete'.$brand->id) }}" class="">
+                                            <a href="{{ url('brand/delete/'.$brand->id) }}" class="">
                                                 <span>
                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         class="text-rose-400 w-6 h-6" viewBox="0 0 24 24"
@@ -126,13 +126,13 @@
 
             <div class="py-12">
 
-                <div class="flex max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div class=" bg-white w-[400px] h-[300px] overflow-hidden shadow-xl sm:rounded-lg">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div class="flex justify-center bg-white w-[400px] h-[300px] overflow-hidden shadow-xl sm:rounded-lg">
 
-                        <form action="{{route('store.category')}}" method="POST">
+                        <form action="{{route('store.brand')}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="">
-                                <div class="mb-6 pt-10">
+                                <div class="mb-6">
                                     <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                         for="brand_name">Brand Name</label>
                                     <input
@@ -141,7 +141,7 @@
 
                                 </div>
                                 @error('brand_name')
-                                <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
+                                <div class="p-1 mb-1 text-sm text-red-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
                                     role="alert">
                                     <span class="font-medium">{{$message}}
                                 </div>
@@ -157,7 +157,7 @@
 
                                 </div>
                                 @error('brand_image')
-                                <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
+                                <div class="p-1 mb-1 text-sm text-red-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
                                     role="alert">
                                     <span class="font-medium">{{$message}}
                                 </div>
